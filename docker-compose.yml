@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  pp-server:
+    image: zjamss/pp-server
+    container_name: pp-server
+    ports: 
+      - "9003:8080"
+    networks:
+      - pp
+    volumes:
+      - /volume/app/plain_pic/cache:/img
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: "rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    privileged: true
+    networks:
+      - pp
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    volumes:
+      - /volume/rabbitmq/data:/var/lib/rabbitmq
+
+networks:
+   pp:

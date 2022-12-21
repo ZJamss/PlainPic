@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:id="@+id/preview_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="350dp"
+            android:layout_height="500dp"
+            android:background="@drawable/shape_rect" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/preview_box"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/shape_rect"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/bring"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bring" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/camera_layout"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center">
+
+                <Button
+                    android:id="@+id/camera_capture_button"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_click" />
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/album"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/gallery" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/show_photo"
+        android:background="@color/black"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_marginTop="100dp"
+            android:background="@drawable/shape_rect"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/cache_photo"
+            android:layout_width="350dp"
+            android:layout_height="350dp" />
+
+        <ImageButton
+            android:layout_marginTop="20dp"
+            android:id="@+id/send"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/send"
+            android:background="@drawable/btn_send"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+
+        <ImageButton
+            android:layout_marginTop="20dp"
+            android:id="@+id/close"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/close"
+            android:background="@drawable/btn_close"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+    </LinearLayout>
+</RelativeLayout>

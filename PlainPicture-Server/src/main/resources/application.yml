@@ -1,0 +1,16 @@
+mq:
+  host: 192.168.15.100
+  username: admin
+  password: admin
+  port: 5672
+  vHost: /
+  config:
+    exchange_name: pp_exc
+server:
+  port: 8080
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
