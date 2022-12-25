@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Data/Program/demo/PlainPic/PlainPicture/app/src/main/res/drawable-v24/btn_click.xml" value="0.1" />
+        <entry key="..\:/Data/Program/demo/PlainPic/PlainPicture/app/src/main/res/drawable-v24/btn_close.xml" value="0.1" />
+        <entry key="..\:/Data/Program/demo/PlainPic/PlainPicture/app/src/main/res/drawable-v24/btn_send.xml" value="0.1" />
+        <entry key="..\:/Data/Program/demo/PlainPic/PlainPicture/app/src/main/res/drawable-v24/shape_rect.xml" value="0.1555" />
+        <entry key="..\:/Data/Program/demo/PlainPic/PlainPicture/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Data/Program/demo/PlainPic/PlainPicture/app/src/main/res/layout/app_widget.xml" value="0.1" />
         <entry key="..\:/Desktop/PlainPicture/app/src/main/res/drawable-v24/btn_click.xml" value="0.1555" />
         <entry key="..\:/Desktop/PlainPicture/app/src/main/res/drawable-v24/btn_close.xml" value="0.1555" />
         <entry key="..\:/Desktop/PlainPicture/app/src/main/res/drawable-v24/btn_send.xml" value="0.1555" />

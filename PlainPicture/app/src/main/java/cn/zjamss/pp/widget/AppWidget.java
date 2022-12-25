@@ -19,8 +19,7 @@ public class AppWidget extends AppWidgetProvider {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent intent1 = new Intent(context, MainActivity.class);
-        context.startActivity(intent1);
+
     }
 
     /**
