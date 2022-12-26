@@ -5,8 +5,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 
-import cn.zjamss.pp.MainActivity;
-
 /**
  * @Program: AppWidgetTest
  * @Description:

@@ -17,15 +17,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.PlainPicture">
+        android:theme="@style/Theme.PlainPicture"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.RecordActivity"
+            android:exported="false" />
+
         <service
             android:name=".service.UpdateService"
             android:enabled="true"
-            android:exported="true" >
-        </service>
+            android:exported="true" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +40,7 @@
 
         <receiver
             android:name=".widget.AppWidget"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

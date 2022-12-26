@@ -1,4 +1,4 @@
-package cn.zjamss.pp;
+package cn.zjamss.pp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,16 +17,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Outline;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 import android.widget.Toast;
@@ -37,8 +38,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +48,7 @@ import java.util.concurrent.Executors;
 import cn.zjamss.pp.databinding.ActivityMainBinding;
 import cn.zjamss.pp.net.PictureService;
 import cn.zjamss.pp.service.UpdateService;
+import cn.zjamss.pp.util.StorageUtil;
 import jp.wasabeef.glide.transformations.CropTransformation;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     ExecutorService cameraExecutor;
     private boolean isBack = true;
 
+    private GestureDetector gestureDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,13 +90,21 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化各类事件
         initEvents();
-
-
     }
 
     private void init() {
         this.outputDir = this.getCacheDir();
         this.cameraExecutor = Executors.newSingleThreadExecutor();
+        this.gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (e1.getY() - e2.getY() > 100 && Math.abs(velocityY) > 200) {
+                    startActivity(new Intent(MainActivity.this, RecordActivity.class));
+                }
+                return true;
+
+            }
+        });
 
         //启动服务
         if (!isServiceRunning("UpdateService")) {
@@ -173,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     showPhoto(uri);
-                    cache = new File(getRealPathFromUri(this,uri));
+                    cache = new File(getRealPathFromUri(this, uri));
                 }
                 break;
         }
@@ -183,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
     public static String getRealPathFromUri(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
+            String[] proj = {MediaStore.Images.Media.DATA};
             cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
@@ -276,6 +286,13 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }, ContextCompat.getMainExecutor(this));
+    }
+
+
+    //判断上滑
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
     }
 
     private boolean allPermissionsGranted() {

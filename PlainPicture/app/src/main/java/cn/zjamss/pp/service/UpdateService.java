@@ -10,6 +10,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
@@ -22,22 +23,22 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeoutException;
 
-import cn.zjamss.pp.MainActivity;
+import cn.zjamss.pp.ui.MainActivity;
 import cn.zjamss.pp.R;
 import cn.zjamss.pp.net.PictureService;
 import cn.zjamss.pp.util.BitmapUtil;
 import cn.zjamss.pp.util.MQUtil;
+import cn.zjamss.pp.util.StorageUtil;
 import cn.zjamss.pp.widget.AppWidget;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UpdateService extends Service {
 
@@ -57,18 +58,18 @@ public class UpdateService extends Service {
                 manager.createNotificationChannel(channel);
             }
             Intent intent = new Intent(this, MainActivity.class);
-            PendingIntent pd = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent pd = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-            Notification notification = new NotificationCompat.Builder(this,"notice")
+            Notification notification = new NotificationCompat.Builder(this, "notice")
                     .setContentTitle("PP")
                     .setContentText("运行中")
                     .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher_foreground))
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_foreground))
                     .setContentIntent(pd)
                     .setAutoCancel(true)
                     .build();
-            startForeground(1,notification);
-        }catch (Exception e){
+            startForeground(1, notification);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -86,8 +87,8 @@ public class UpdateService extends Service {
             try {
                 SharedPreferences pp = getSharedPreferences("pp", Context.MODE_PRIVATE);
                 channel = MQUtil.getChannel();
-                String queueName = pp.getString("queue_name","???");
-                channel.queueDeclare(queueName,false,false   ,true,null);
+                String queueName = pp.getString("queue_name", "???");
+                channel.queueDeclare(queueName, false, false, true, null);
                 channel.queueBind(queueName, EXCHANGE_NAME, "");
                 channel.basicConsume(queueName, false, new DefaultConsumer(channel) {
                     @Override
@@ -118,9 +119,11 @@ public class UpdateService extends Service {
                                 InputStream inputStream = response.body().byteStream();
                                 RemoteViews rv = new RemoteViews(UpdateService.this.getPackageName(), R.layout.app_widget);
                                 ComponentName cn = new ComponentName(UpdateService.this, AppWidget.class);
-                                rv.setImageViewBitmap(R.id.widget_image, BitmapUtil.bimapRound(BitmapUtil.adjustPhotoRotation(BitmapUtil.centerSquareScaleBitmap(BitmapFactory.decodeStream(inputStream), 500)),40));
+                                Bitmap bitmap = BitmapUtil.bimapRound(BitmapUtil.adjustPhotoRotation(BitmapUtil.centerSquareScaleBitmap(BitmapFactory.decodeStream(inputStream), 500)), 40);
+                                rv.setImageViewBitmap(R.id.widget_image, bitmap);
                                 AppWidgetManager manager = AppWidgetManager.getInstance(UpdateService.this);
                                 manager.updateAppWidget(cn, rv);
+                                StorageUtil.savePic(UpdateService.this, bitmap);
                             }
                         }
                     }
