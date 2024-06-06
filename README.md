@@ -3,7 +3,7 @@
 仿照贴贴的安卓App
 
 技术：
-- 后端：Springboot+rabbitmq
+- 后端：Springboot+RabbitMQ
 - 安卓
 
 功能：
