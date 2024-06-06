@@ -1,4 +1,12 @@
 # PlainPic
-简图贴贴
+简图
+仿照贴贴的安卓App
 
-仿贴贴功能的APP，做着玩的，还是能看
+功能：
+- 桌面照片小组件
+- 广播照片到好友手机组件
+- 支持历史照片记录
+
+**PlainPicture-Server** 后端服务器
+
+**PlainPicture** 安卓App
